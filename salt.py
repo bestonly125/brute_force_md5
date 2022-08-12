@@ -33,3 +33,5 @@ for i in range(len(t_num)):
 print(array_y)
 end = time.time()
 print("time: ", end - start)
+
+
