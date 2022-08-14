@@ -53,9 +53,15 @@ print(f"salt[{len(salt_res)}] = {sorted(salt_res)}")
 for row in range(2,len(ws["A"])+1):
     if dict_md5[str(ws['A' + str(row)].value)]:
           ws['A' + str(row)] = int(dict_md5[str(ws['A' + str(row)].value)])-list(salt_res)[0]
-wb.save(filename="scoring_data_v.1.0.xlsx")
-print("result can see in scoring_data_v.1.0.xlsx")
+
+ws['C1'] = "Соль"
+ws['E2'] = f"Расчетное время по brute force = {(round(end_bf - start_bf,2))} сек"
+ws['E3'] = f"Расчетное время по соли = {round(end_salt - start_salt,2)} сек"
 print(f"Расчетное время по brute force = {round(end_bf - start_bf,2)} сек")
 print(f"Расчетное время по соли = {round(end_salt - start_salt,2)} сек")
+
+wb.save(filename="scoring_data_v.1.0.xlsx")
+
+print("result can see in scoring_data_v.1.0.xlsx")
 os.system("libreoffice --writer scoring_data_v.1.0.xlsx")
 
