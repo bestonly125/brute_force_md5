@@ -1,6 +1,7 @@
 import os
 from openpyxl import load_workbook
 import time
+import pandas as pd
 
 # Подключаемся к обезличенному набору данных
 md5_list = open('hashcat/md5_list.txt', "w")
@@ -53,15 +54,15 @@ print(f"salt[{len(salt_res)}] = {sorted(salt_res)}")
 for row in range(2,len(ws["A"])+1):
     if dict_md5[str(ws['A' + str(row)].value)]:
           ws['A' + str(row)] = int(dict_md5[str(ws['A' + str(row)].value)])-list(salt_res)[0]
-
+          ws['C' + str(row)] = list(salt_res)[0]
 ws['C1'] = "Соль"
 ws['E2'] = f"Расчетное время по brute force = {(round(end_bf - start_bf,2))} сек"
 ws['E3'] = f"Расчетное время по соли = {round(end_salt - start_salt,2)} сек"
 print(f"Расчетное время по brute force = {round(end_bf - start_bf,2)} сек")
 print(f"Расчетное время по соли = {round(end_salt - start_salt,2)} сек")
-
-wb.save(filename="scoring_data_v.1.0.xlsx")
+PATH_FILE_NAME = "scoring_data_v.1.0.xlsx"
+wb.save(filename=PATH_FILE_NAME)
 
 print("result can see in scoring_data_v.1.0.xlsx")
 os.system("libreoffice --writer scoring_data_v.1.0.xlsx")
-
+print(pd.read_excel(PATH_FILE_NAME,usecols=["Номер телефона","Скоринговый балл","Соль"]))
