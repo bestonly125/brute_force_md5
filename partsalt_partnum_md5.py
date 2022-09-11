@@ -8,9 +8,9 @@ SALT = "49920647"
 # Набор телефонного номера нужно указать начало и конец словаря
 T_NUM = [89011110000, 89011119999]
 
-# md5_list = open('hashcat/md5_list.txt', "w")
-# wb = load_workbook("scoring_data_v.0.3.3.xlsx")
-# ws = wb["A2"]
+md5_list = open('hashcat/md5_list.txt', "w")
+wb = load_workbook("scoring_data_v.0.3.3.xlsx")
+ws = wb["A2"]
 
 # сравнения двух номеров телефона в GPU kernel
 kernel = cp.ElementwiseKernel(
@@ -24,21 +24,21 @@ kernel = cp.ElementwiseKernel(
                salt=0;
         }''')
 
-# # Набор обезличенных данных преобразуем виде текстового документа для быстрого перебора
-# for i in range(2,len(ws["A"])+1):
-#     md5_list.write(f"{ws['A' + str(i)].value}\n")
-# md5_list.close()
-#
-# # Проверка текстового документа на наличия заполнения
-# read_md5_list = open("hashcat/md5_list.txt", "r")
-# print(f"len = {bool(read_md5_list)}")
-#
-# # Вызываем библиотеку hashcat. Перебор данных осуществляется с помощью масок с длиной 11 символов
-# start_bf = time.time()
-# if bool(read_md5_list) is True:
-#     os.system("rm -rf ./hashcat/hashcat.potfile")
-#     os.system("./hashcat/hashcat.bin -m0 -a3 ./hashcat/md5_list.txt ?d?d?d?d?d?d?d?d?d?d?d")
-# end_bf = time.time()
+# Набор обезличенных данных преобразуем виде текстового документа для быстрого перебора
+for i in range(2,len(ws["A"])+1):
+    md5_list.write(f"{ws['A' + str(i)].value}\n")
+md5_list.close()
+
+# Проверка текстового документа на наличия заполнения
+read_md5_list = open("hashcat/md5_list.txt", "r")
+print(f"len = {bool(read_md5_list)}")
+
+# Вызываем библиотеку hashcat. Перебор данных осуществляется с помощью масок с длиной 11 символов
+start_bf = time.time()
+if bool(read_md5_list) is True:
+    os.system("rm -rf ./hashcat/hashcat.potfile")
+    os.system("./hashcat/hashcat.bin -m0 -a3 ./hashcat/md5_list.txt ?d?d?d?d?d?d?d?d?d?d?d")
+end_bf = time.time()
 
 # подключения к списку деобезличенного набора
 potfile = open("hashcat/hashcat.potfile", "r")
@@ -77,7 +77,7 @@ def one_set(first,second):
 def set_sum(t_num,cp_salt):
 
      res = result_salt(t_num, [cp_salt[0], cp_salt[1]])
-     res2 = result_salt(t_num, [cp_salt[2], cp_salt[3]])
+     # res2 = result_salt(t_num, [cp_salt[2], cp_salt[3]])
      one = compare(SALT,res)
      for i in range(4,len(cp_salt)):
           if (i+1) > len(cp_salt) or len(one) < 75: break
@@ -95,5 +95,6 @@ end_sm = time.time()
 
 
 
-print(len(array_res))
-print(f"time:{end_sm-start_sm}")
+print(array_res)
+print(f"time for brute force:{end_bf-start_bf}")
+print(f"time for salt:{end_sm-start_sm}")
