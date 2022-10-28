@@ -1,7 +1,6 @@
-# Модель по перебору MD5 хешей с помощью библиотеки hashcat
+# Модель перебора MD5 хешей с помощью библиотеки hashcat
 ## Требуется установить одну из рекомендуемых ниже библиотек (согласно вашей видеокарты): 
 - AMD GPUs on Linux require "RadeonOpenCompute (ROCm)" Software Platform (3.1 or later)
-- AMD GPUs on Windows require "AMD Radeon Adrenalin 2020 Edition" (20.2.2 or later)
 - Intel CPUs require "OpenCL Runtime for Intel Core and Intel Xeon Processors" (16.1.1 or later)
 - NVIDIA GPUs require "NVIDIA Driver" (440.64 or later) and "CUDA Toolkit" (9.0 or later)
 
